@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Navigation Bar -->
   <nav>
     <div class="logo">Bubble Sort Game</div>
     <ul>
@@ -16,24 +17,36 @@
     </ul>
   </nav>
 
+  <!-- Main Content -->
   <main>
-    <h1>Interactive Bubble Sort Game</h1>
-    <p>Decide whether to switch the two highlighted numbers.</p>
+    <section class="intro">
+      <h1>Interactive Bubble Sort Game</h1>
+      <p>Learn sorting algorithms interactively! Decide whether to switch the two highlighted numbers.</p>
+    </section>
+
     <div class="container">
+      <!-- Bar Chart Container -->
       <div id="bar-container" class="bar-container"></div>
-      <div>
+
+      <!-- Control Buttons -->
+      <div class="controls">
         <button id="switch-btn">Switch</button>
         <button id="dont-switch-btn">Don't Switch</button>
+        <button id="reset-btn">Reset</button>
       </div>
-      <div id="feedback"></div>
+
+      <!-- Feedback Message -->
+      <div id="feedback" class="feedback"></div>
+
+      <!-- Scoreboard -->
       <div class="scoreboard">
         <p>Right Answers: <span id="right-counter">0</span></p>
         <p>Wrong Answers: <span id="wrong-counter">0</span></p>
       </div>
-      <button id="reset-btn">Reset</button>
     </div>
   </main>
 
+  <!-- Footer -->
   <footer>
     <p>&copy; 2025 Interactive Bubble Sort Game. All rights reserved.</p>
   </footer>
