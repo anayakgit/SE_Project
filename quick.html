@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Sort Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 50px auto;
+            max-width: 800px;
+        }
+        .array-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .array-item {
+            width: 50px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .array-item span {
+            position: absolute;
+            top: -25px;
+            font-size: 14px;
+            color: black;
+        }
+        .pivot {
+            background-color: #ff9800 !important;
+        }
+        .sorted {
+            background-color: #2196F3 !important;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            font-size: 20px;
+            font-weight: bold;
+            color: green;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quick Sort Game</h1>
+        <p>Click the pivot element to sort the array step-by-step!</p>
+        <div class="array-container" id="array-container"></div>
+        <button id="reset-btn">Reset Array</button>
+        <p id="message" class="message"></p> <!-- Added message element -->
+    </div>
+
+    <script>
+        const arrayContainer = document.getElementById('array-container');
+        const resetBtn = document.getElementById('reset-btn');
+        const messageElement = document.getElementById('message'); // Get the message element
+
+        let array = [];
+        let sortedIndices = [];
+        let leftStack = [];
+        let rightStack = [];
+        let isSelecting = true;
+
+        function generateArray() {
+            array = Array.from({ length: 8 }, () => Math.floor(Math.random() * 100) + 1);
+            sortedIndices = [];
+            leftStack = [0];
+            rightStack = [array.length - 1];
+            isSelecting = true;
+            renderArray();
+            messageElement.textContent = ''; // Clear message on reset
+        }
+
+        function renderArray(pivotIndex = null) {
+            arrayContainer.innerHTML = '';
+            array.forEach((num, index) => {
+                const div = document.createElement('div');
+                div.className = 'array-item';
+                div.style.height = `${num * 2}px`;
+                div.innerHTML = `<span>${num}</span>`;
+
+                if (sortedIndices.includes(index)) {
+                    div.classList.add('sorted');
+                } else if (index === pivotIndex) {
+                    div.classList.add('pivot');
+                }
+
+                div.dataset.index = index;
+                div.addEventListener('click', () => handlePivotSelection(index));
+                arrayContainer.appendChild(div);
+            });
+
+            if (sortedIndices.length === array.length) {
+                messageElement.textContent = 'Array Sorted!';
+            }
+        }
+
+        async function handlePivotSelection(pivotIndex) {
+            if (!isSelecting || sortedIndices.includes(pivotIndex)) {
+                return;
+            }
+
+            isSelecting = false;
+
+            const left = leftStack.pop();
+            const right = rightStack.pop();
+
+            if (pivotIndex < left || pivotIndex > right) {
+                isSelecting = true;
+                return;
+            }
+
+            const newPivotIndex = await partition(left, right, pivotIndex);
+            sortedIndices.push(newPivotIndex);
+
+            // Check if array is completely sorted after this step
+            if (sortedIndices.length === array.length) {
+                renderArray();
+                return;
+            }
+
+            if (left < newPivotIndex - 1) {
+                leftStack.push(left);
+                rightStack.push(newPivotIndex - 1);
+            }
+
+            if (newPivotIndex + 1 < right) {
+                leftStack.push(newPivotIndex + 1);
+                rightStack.push(right);
+            }
+
+            if (leftStack.length === 0 && rightStack.length === 0) {
+                isSelecting = false;
+                renderArray();
+                return;
+            }
+
+            isSelecting = true;
+            renderArray();
+        }
+
+        function partition(left, right, pivotIndex) {
+            return new Promise((resolve) => {
+                const pivotValue = array[pivotIndex];
+                [array[pivotIndex], array[right]] = [array[right], array[pivotIndex]];
+
+                let storeIndex = left;
+                for (let i = left; i < right; i++) {
+                    if (array[i] < pivotValue) {
+                        [array[i], array[storeIndex]] = [array[storeIndex], array[i]];
+                        storeIndex++;
+                    }
+                }
+
+                [array[storeIndex], array[right]] = [array[right], array[storeIndex]];
+                renderArray(storeIndex);
+
+                setTimeout(() => resolve(storeIndex), 500);
+            });
+        }
+
+        resetBtn.addEventListener('click', () => {
+            generateArray();
+        });
+
+        generateArray();
+    </script>
+</body>
+</html>
