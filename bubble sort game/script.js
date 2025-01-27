@@ -30,14 +30,14 @@ function generateBars() {
 // Highlight bars for comparison
 function highlightBars() {
   if (j < array.length - i - 1) {
-    bars[j].style.backgroundColor = "red";
-    bars[j + 1].style.backgroundColor = "red";
+    bars[j].classList.add("highlight");
+    bars[j + 1].classList.add("highlight");
   }
 }
 
 // Remove bar highlights
 function removeHighlights() {
-  bars.forEach(bar => bar.style.backgroundColor = "#6c63ff");
+  bars.forEach(bar => bar.classList.remove("highlight"));
 }
 
 // Update counters
@@ -56,11 +56,13 @@ function validateChoice(switchChoice) {
   const shouldSwitch = array[j] > array[j + 1];
   if (switchChoice === shouldSwitch) {
     feedback.textContent = "Good job! That's the correct choice.";
+    feedback.style.color = "#208cdc";
     updateCounters(true);
   } else {
     feedback.textContent = shouldSwitch
       ? "Wrong! You should have switched. Performing the switch anyway."
       : "Wrong! You shouldn't switch. Moving to the next step.";
+    feedback.style.color = "#e53935";
     updateCounters(false);
   }
 
@@ -83,6 +85,7 @@ function validateChoice(switchChoice) {
 
   if (i >= array.length - 1) {
     feedback.textContent = "Sorting complete! Well done!";
+    feedback.style.color = "#208cdc";
     switchBtn.disabled = true;
     dontSwitchBtn.disabled = true;
   } else {
