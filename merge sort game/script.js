@@ -11,7 +11,8 @@ const questionText = document.getElementById("question-text");
 const optionsContainer = document.getElementById("options-container");
 const feedback = document.getElementById("feedback");
 const nextButton = document.getElementById("next-button");
-const scoreText = document.getElementById("score-text");
+const correctCounter = document.getElementById("correct-counter");
+const incorrectCounter = document.getElementById("incorrect-counter");
 
 // Generate merge steps
 function generateSteps(array) {
@@ -63,6 +64,7 @@ function renderOptions(options) {
   optionsContainer.innerHTML = "";
   options.forEach((option) => {
     const button = document.createElement("button");
+    button.className = "option-button";
     button.textContent = option;
     button.onclick = () => handleAnswer(option);
     optionsContainer.appendChild(button);
@@ -76,9 +78,11 @@ function handleAnswer(selected) {
 
   if (selected === correct) {
     feedback.textContent = "Correct! Well done.";
+    feedback.style.color = "#208cdc";
     correctAnswers++;
   } else {
     feedback.textContent = `Wrong! The correct answer was ${correct}.`;
+    feedback.style.color = "#e53935";
     incorrectAnswers++;
   }
 
@@ -89,7 +93,8 @@ function handleAnswer(selected) {
   currentArray = currentArray.filter((n) => n !== null);
   currentArray.push(...[...step.group1, ...step.group2].sort((a, b) => a - b));
 
-  scoreText.textContent = `Correct: ${correctAnswers} | Incorrect: ${incorrectAnswers}`;
+  correctCounter.textContent = correctAnswers;
+  incorrectCounter.textContent = incorrectAnswers;
   nextButton.disabled = false;
 }
 
@@ -100,6 +105,7 @@ nextButton.onclick = () => {
     renderStep();
   } else {
     feedback.textContent = "Great job! The array is now sorted!";
+    feedback.style.color = "#208cdc";
     renderChart(array.sort((a, b) => a - b));
   }
   nextButton.disabled = true;
