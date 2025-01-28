@@ -1,0 +1,45 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>String Matching Algorithm Visualizer</title>  
+    <link rel="stylesheet" href="styles.css">  
+</head>  
+<body>  
+    <div class="container">  
+        <h1>String Matching Algorithm Visualizer</h1>  
+        
+        <div class="input-group">  
+            <label>Algorithm:</label>  
+            <select id="algorithm">  
+                <option value="horspool" selected>Boyer-Moore-Horspool</option>  
+            </select>  
+            <button onclick="toggleStateTable()" id="toggleTableBtn">Show state table</button>  
+        </div>  
+
+        <div class="input-group">  
+            <label>Text to search:</label>  
+            <input type="text" id="searchText" value="the mathematical theory" style="width: 100%; padding: 8px;">  
+        </div>  
+
+        <div class="input-group">  
+            <label>Search pattern:</label>  
+            <input type="text" id="pattern" value="theory" style="width: 100%; padding: 8px;">  
+        </div>  
+
+        <div id="visualization" class="visualization"></div>  
+        <div class="explanation" id="explanation"></div>  
+
+        <div class="controls">  
+            <button id="prevBtn" onclick="previousStep()">Previous</button>  
+            <button id="nextBtn" onclick="nextStep()">Next</button>  
+            <input type="range" id="progressSlider" class="slider" min="0" value="0">  
+        </div>  
+
+        <div id="stateTable" style="display: none;"></div>  
+    </div>  
+
+    <script src="script.js"></script>  
+</body>  
+</html>
