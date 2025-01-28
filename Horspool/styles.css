@@ -1,53 +1,127 @@
+/* General Styling */
 body {  
     font-family: Arial, sans-serif;  
-    max-width: 1000px;  
+    max-width: 1500px;  
     margin: 20px auto;  
     padding: 20px;  
-    background-color: #273b40;  
+    background-color: #141e20;  
     color: #1d1d1d;  
 }  
+
+/* Navigation Bar */
+nav {
+    background: linear-gradient(90deg, #ff6f61, #ffcc00, #6effa5);
+    background-size: 300% 300%;
+    animation: gradientShift 6s infinite;
+    color: black;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    border-bottom: 5px solid #000000;
+}
+
+nav .logo {
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0px;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    transition: color 0.3s;
+    
+}
+nav ul li a:hover {
+    color: #ffcc00; /* Yellow accent on hover */
+}
+
+/* Keyframe Animation */
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Container and other styles (same as before) */
 .container {  
     border: 1px solid #ddd;  
     border-radius: 8px;  
     padding: 20px;  
-    background-color: #cae9ea;  
+    background-color:   #cae9ea;  
+    
 }  
+
 .input-group {  
     margin-bottom: 20px;  
+    
 }  
+
 .input-group label {  
     display: block;  
     margin-bottom: 5px;  
     font-weight: bold;  
+    
 }  
+
 .visualization {  
     font-family: monospace;  
     font-size: 20px;  
     margin: 20px 0;  
     overflow-x: auto;  
 }  
+
 .index-row, .text-row, .pattern-row {  
     white-space: pre;  
     line-height: 1.5;  
     margin: 5px 0;  
 }  
+
 .character {  
     display: inline-block;  
     width: 30px;  
     text-align: center;  
 }  
+
 .match {  
     background-color: #208cdc;  
 }  
+
 .current {  
     background-color: #3c4748;  
     color: white;  
 }  
+
 .controls {  
     margin: 20px 0;  
     display: flex;  
     gap: 10px;  
 }  
+
 button {  
     padding: 8px 16px;  
     cursor: pointer;  
@@ -55,36 +129,77 @@ button {
     color: white;  
     border: none;  
     border-radius: 4px;  
+    font-size:17px;
 }  
+
 button:disabled {  
     background-color: #ccc;  
 }  
+
 select {  
     padding: 8px;  
     margin-right: 10px;  
 }  
+
 .slider {  
     flex-grow: 1;  
     margin: 0 10px;  
 }  
+
 .state-table {  
     margin-top: 20px;  
     border-collapse: collapse;  
     width: 100%;  
     max-width: 300px;  
 }  
+
 .state-table th, .state-table td {  
     border: 1px solid #ddd;  
     padding: 8px;  
     text-align: center;  
     background-color: white;  
 }  
+
 .explanation {  
     margin-top: 20px;  
     padding: 10px;  
     background-color: #fff;  
     border-radius: 4px;  
     border: 1px solid #ddd;  
-    font-size: 16px;  
+    font-size: 20px;  
     line-height: 1.5;  
 }
+#searchText,#pattern{
+    font-size:17px;
+}
+#algorithm{
+    font-size:17px;
+}
+.about-button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 15px 20px;
+    position: absolute;
+    z-index: 1;
+    bottom: -120px; /* Position the tooltip below the button */
+    left: -200px; /* Move the tooltip more to the left */
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+  
+  .about-button:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }

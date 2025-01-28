@@ -50,7 +50,7 @@ function generateHorspoolSteps() {
                 step.explanation += `Found match: '${pattern[j]}' equals '${text[textIndex]}' at position ${textIndex}. `;  
                 
                 if (j > 0) {  
-                    step.explanation += `Moving left to compare next character. `;  
+                    step.explanation += `Moving left to compare next character. \n`;  
                 }  
                 
                 if (j < pattern.length - 1) {  

@@ -7,11 +7,22 @@
     <link rel="stylesheet" href="styles.css">  
 </head>  
 <body>  
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">String Matching Visualizer</div>
+        <ul>
+            <li><a href="../home/index.html">Home</a></li>
+            <li><a href="#" class="about-button">About <span class="tooltip-text">Horspool’s algorithm optimizes string matching by skipping sections of the text based on character mismatches.</span></a></li>
+
+            <!-- <li><a href="#">Contact</a></li> -->
+        </ul>
+    </nav>
+
     <div class="container">  
-        <h1>String Matching Algorithm Visualizer</h1>  
+        <!-- <h1>String Matching Algorithm Visualizer</h1>   -->
         
         <div class="input-group">  
-            <label>Algorithm:</label>  
+            <h2>Algorithm:</h2>  
             <select id="algorithm">  
                 <option value="horspool" selected>Boyer-Moore-Horspool</option>  
             </select>  
@@ -19,13 +30,13 @@
         </div>  
 
         <div class="input-group">  
-            <label>Text to search:</label>  
-            <input type="text" id="searchText" value="the mathematical theory" style="width: 100%; padding: 8px;">  
+            <h2>Text to search:</h2>  
+            <input type="text" id="searchText" value="abcbdabcdbabcddba" style="width: 100%; padding: 8px;">  
         </div>  
 
         <div class="input-group">  
-            <label>Search pattern:</label>  
-            <input type="text" id="pattern" value="theory" style="width: 100%; padding: 8px;">  
+            <h2>Search pattern:</h2>  
+            <input type="text" id="pattern" value="abcd" style="width: 100%; padding: 8px;">  
         </div>  
 
         <div id="visualization" class="visualization"></div>  

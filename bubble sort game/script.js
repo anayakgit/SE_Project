@@ -56,7 +56,7 @@ function validateChoice(switchChoice) {
   const shouldSwitch = array[j] > array[j + 1];
   if (switchChoice === shouldSwitch) {
     feedback.textContent = "Good job! That's the correct choice.";
-    feedback.style.color = "#208cdc";
+    feedback.style.color = "#FFFFFF";
     updateCounters(true);
   } else {
     feedback.textContent = shouldSwitch

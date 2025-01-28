@@ -11,23 +11,18 @@
   <nav>
     <div class="logo">Merge Sort Game</div>
     <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
+      <li><a href="../home/index.html">Home</a></li>
+      <li><a href="#" class="about-button">About <span class="tooltip-text">Merge Sort is an efficient, stable, and comparison-based sorting algorithm.</span></a></li>
     </ul>
   </nav>
 
   <!-- Main Content -->
   <main>
-    <section class="intro">
-      <h1>Merge Sort Interactive Quiz</h1>
-      <p>Test your understanding of the merge sort algorithm by answering questions and interacting with visualizations.</p>
-    </section>
 
     <div class="container">
       <!-- Array Visualization -->
       <div id="visualization-container">
-        <h2>Array Visualization</h2>
+        <!-- <h2>Array Visualization</h2> -->
         <div class="bar-container" id="bar-container"></div>
       </div>
 
@@ -41,6 +36,7 @@
       <div id="feedback-container">
         <p id="feedback" class="feedback"></p>
         <button id="next-button" disabled>Next</button>
+        <button id="reset-button">Reset</button>
       </div>
 
       <!-- Scoreboard -->

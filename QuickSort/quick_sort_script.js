@@ -6,15 +6,20 @@ let incorrect = 0;
 function initializeGame() {
   // Generate a random array
   array = Array.from({ length: 8 }, () => Math.floor(Math.random() * 100) + 1);
-  
+
   // Initialize the stack with the full array range
   subarrayStack = [{ left: 0, right: array.length - 1 }];
-  
+
   correct = 0;
   incorrect = 0;
 
   renderArray();
   askQuestion();
+  updateScore();
+
+  // Reset feedback and disable Next button initially
+  document.getElementById("feedback").textContent = "";
+  document.getElementById("next-button").disabled = true;
 }
 
 function renderArray() {
@@ -26,7 +31,7 @@ function renderArray() {
     bar.style.height = `${value}px`;
     bar.textContent = value;
 
-    // Highlight sorted sections
+    // Highlight active or sorted sections
     if (subarrayStack.some(({ left, right }) => index >= left && index <= right)) {
       bar.classList.add("active");
     } else {
@@ -68,7 +73,7 @@ function handleAnswer(selectedValue, pivotValue) {
 
   if (selectedValue === pivotValue) {
     feedback.textContent = "Correct!";
-    feedback.style.color = "green";
+    feedback.style.color = "white";
     correct++;
     partition();
   } else {
@@ -77,7 +82,7 @@ function handleAnswer(selectedValue, pivotValue) {
     incorrect++;
   }
 
-  document.getElementById("next-button").disabled = false;
+  document.getElementById("next-button").disabled = false; // Enable Next button
   updateScore();
 }
 
@@ -107,7 +112,8 @@ function partition() {
 }
 
 function updateScore() {
-  document.getElementById("score-text").textContent = `Correct: ${correct} | Incorrect: ${incorrect}`;
+  document.getElementById("correct-counter").textContent = correct;
+  document.getElementById("incorrect-counter").textContent = incorrect;
 }
 
 function isArraySorted() {
@@ -117,10 +123,16 @@ function isArraySorted() {
   return true;
 }
 
+// Add event listener for the Next button
 document.getElementById("next-button").onclick = () => {
   document.getElementById("feedback").textContent = "";
-  document.getElementById("next-button").disabled = true;
+  document.getElementById("next-button").disabled = true; // Disable Next button after it's clicked
   askQuestion();
+};
+
+// Add event listener for the Reset button
+document.getElementById("reset-button").onclick = () => {
+  initializeGame(); // Reset the game
 };
 
 // Initialize the game when the page loads

@@ -1,4 +1,16 @@
-const array = [8, 3, 5, 1, 9, 2, 6, 4];
+// Generate a random array of unique numbers
+// Generate a random array of unique numbers
+function generateRandomArray(size, min, max) {
+  const numbers = new Set();
+  while (numbers.size < size) {
+    const randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+    numbers.add(randomNum);
+  }
+  return Array.from(numbers);
+}
+
+// Generate the initial random array with a maximum value of 14
+const array = generateRandomArray(8, 1, 14); // Array of 8 random numbers between 1 and 14
 let currentArray = [...array];
 let steps = [];
 let currentStepIndex = 0;
@@ -13,6 +25,7 @@ const feedback = document.getElementById("feedback");
 const nextButton = document.getElementById("next-button");
 const correctCounter = document.getElementById("correct-counter");
 const incorrectCounter = document.getElementById("incorrect-counter");
+const resetButton = document.getElementById("reset-button"); // Add this line
 
 // Generate merge steps
 function generateSteps(array) {
@@ -78,7 +91,7 @@ function handleAnswer(selected) {
 
   if (selected === correct) {
     feedback.textContent = "Correct! Well done.";
-    feedback.style.color = "#208cdc";
+    feedback.style.color = "#FFFFFF";
     correctAnswers++;
   } else {
     feedback.textContent = `Wrong! The correct answer was ${correct}.`;
@@ -114,3 +127,28 @@ nextButton.onclick = () => {
 // Initialize the game
 steps = generateSteps(array);
 renderStep();
+
+// Handle Reset Button
+resetButton.onclick = () => {
+  // Generate a new random array with numbers between 1 and 14
+  const newArray = generateRandomArray(8, 1, 14);
+
+  // Reset the original array and regenerate the game state
+  currentArray = [...newArray]; // New current array
+  steps = generateSteps(newArray); // Regenerate steps
+  currentStepIndex = 0; // Reset step index
+  correctAnswers = 0; // Reset score
+  incorrectAnswers = 0;
+
+  // Reset DOM elements
+  correctCounter.textContent = correctAnswers; // Reset counters
+  incorrectCounter.textContent = incorrectAnswers;
+  feedback.textContent = ""; // Clear feedback
+  nextButton.disabled = true; // Disable the next button
+
+  // Render the new state
+  renderChart(currentArray); // Render the new array chart
+  renderStep(); // Start from the first step
+};
+
+
