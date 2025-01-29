@@ -5,10 +5,12 @@ const resetBtn = document.getElementById("reset-btn");
 const feedback = document.getElementById("feedback");
 const rightCounter = document.getElementById("right-counter");
 const wrongCounter = document.getElementById("wrong-counter");
+const viewScoresBtn = document.getElementById("view-scores-btn");
 
 let bars = [];
 let array = [];
-let i = 0, j = 0;
+let i = 0,
+  j = 0;
 let rightAnswers = 0;
 let wrongAnswers = 0;
 
@@ -37,7 +39,7 @@ function highlightBars() {
 
 // Remove bar highlights
 function removeHighlights() {
-  bars.forEach(bar => bar.classList.remove("highlight"));
+  bars.forEach((bar) => bar.classList.remove("highlight"));
 }
 
 // Update counters
@@ -88,9 +90,24 @@ function validateChoice(switchChoice) {
     feedback.style.color = "#208cdc";
     switchBtn.disabled = true;
     dontSwitchBtn.disabled = true;
+
+    // Submit score to the backend
+    submitScore(rightAnswers);
   } else {
     highlightBars();
   }
+}
+
+// Function to send score to backend
+function submitScore(score) {
+  fetch("http://localhost:3000/top-scores/bubble-sort", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ score }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Score submitted:", data))
+    .catch((error) => console.error("Error submitting score:", error));
 }
 
 // Reset the game
@@ -112,6 +129,18 @@ function resetGame() {
 switchBtn.addEventListener("click", () => validateChoice(true));
 dontSwitchBtn.addEventListener("click", () => validateChoice(false));
 resetBtn.addEventListener("click", resetGame);
+
+// Handle "View Top Scores" button click
+viewScoresBtn.addEventListener("click", () => {
+  fetch("http://localhost:3000/top-scores/bubble-sort")
+    .then((response) => response.text())
+    .then((data) => {
+      // Display the EJS page content (you can modify this to show a modal or page)
+      const win = window.open();
+      win.document.write(data);
+    })
+    .catch((error) => console.error("Error fetching top scores:", error));
+});
 
 // Initialize game
 generateBars();

@@ -1,63 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Quick Sort Game</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="logo">Quick Sort Game</div>
-    <ul>
-      <li><a href="../home/index.html">Home</a></li>
-      <li><a href="#" class="about-button">About <span class="tooltip-text">Quick Sort is a highly efficient divide-and-conquer algorithm. It works by selecting a pivot element and partitioning the array around it, recursively sorting the subarrays.</span></a></li>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Quick Sort Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">Quick Sort Game</div>
+      <ul>
+        <li style="margin-top: 20px;"><a href="../home/index.html">Home</a></li>
+        <li style="margin-top: 20px;">
+          <a href="#" class="about-button"
+            >About
+            <span class="tooltip-text"
+              >Quick Sort is a highly efficient divide-and-conquer algorithm. It
+              works by selecting a pivot element and partitioning the array
+              around it, recursively sorting the subarrays.</span
+            ></a
+          >
+        </li>
 
-      <!-- <li><a href="#">Contact</a></li> -->
-    </ul>
-  </nav>
+        <!-- <li><a href="#">Contact</a></li> -->
+        <li><button id="view-scores-btn">View Top Scores</button></li>
+      </ul>
+    </nav>
 
-  <!-- Main Content -->
-  <main>
-    <!-- <section class="intro">
+    <!-- Main Content -->
+    <main>
+      <!-- <section class="intro">
       <h1>Quick Sort Interactive Quiz</h1>
       <p>Test your knowledge of the quick sort algorithm by choosing the correct pivots and following the sorting process interactively.</p>
     </section> -->
 
-    <div class="container">
-      <!-- Array Visualization -->
-      <div id="visualization-container">
-        <!-- <h2>Array Visualization</h2> -->
-        <div class="bar-container" id="bar-container"></div>
+      <div class="container">
+        <!-- Array Visualization -->
+        <div id="visualization-container">
+          <!-- <h2>Array Visualization</h2> -->
+          <div class="bar-container" id="bar-container"></div>
+        </div>
+
+        <!-- Question Container -->
+        <div id="question-container">
+          <h3 id="question-text">
+            Which element should be chosen as the pivot?
+          </h3>
+          <div id="options-container" class="options-container"></div>
+        </div>
+
+        <!-- Feedback and Controls -->
+        <div id="feedback-container">
+          <p id="feedback" class="feedback"></p>
+          <button id="next-button" disabled>Next</button>
+          <button id="reset-button">Reset</button>
+          <!-- Added Reset Button -->
+        </div>
+
+        <!-- Scoreboard -->
+        <div class="scoreboard">
+          <p>Correct Answers: <span id="correct-counter">0</span></p>
+          <p>Incorrect Answers: <span id="incorrect-counter">0</span></p>
+        </div>
       </div>
+    </main>
 
-      <!-- Question Container -->
-      <div id="question-container">
-        <h3 id="question-text">Which element should be chosen as the pivot?</h3>
-        <div id="options-container" class="options-container"></div>
-      </div>
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Interactive Quick Sort Game. All rights reserved.</p>
+    </footer>
 
-      <!-- Feedback and Controls -->
-      <div id="feedback-container">
-        <p id="feedback" class="feedback"></p>
-        <button id="next-button" disabled>Next</button>
-        <button id="reset-button">Reset</button> <!-- Added Reset Button -->
-      </div>
-
-      <!-- Scoreboard -->
-      <div class="scoreboard">
-        <p>Correct Answers: <span id="correct-counter">0</span></p>
-        <p>Incorrect Answers: <span id="incorrect-counter">0</span></p>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Interactive Quick Sort Game. All rights reserved.</p>
-  </footer>
-
-  <script src="quick_sort_script.js"></script>
-</body>
+    <script src="quick_sort_script.js"></script>
+  </body>
 </html>
