@@ -1,4 +1,17 @@
-// Generate a random array of unique numbers
+const barContainer = document.getElementById("bar-container");
+const nextBtn = document.getElementById("next-button");
+const resetBtn = document.getElementById("reset-button");
+const feedback = document.getElementById("feedback");
+const correctCounter = document.getElementById("correct-counter");
+const incorrectCounter = document.getElementById("incorrect-counter");
+const viewScoresBtn = document.getElementById("view-scores-btn");
+
+let steps = [];
+let currentStepIndex = 0;
+let correctAnswers = 0;
+let incorrectAnswers = 0;
+let currentArray = [];
+
 // Generate a random array of unique numbers
 function generateRandomArray(size, min, max) {
   const numbers = new Set();
@@ -9,25 +22,7 @@ function generateRandomArray(size, min, max) {
   return Array.from(numbers);
 }
 
-// Generate the initial random array with a maximum value of 14
-const array = generateRandomArray(8, 1, 14); // Array of 8 random numbers between 1 and 14
-let currentArray = [...array];
-let steps = [];
-let currentStepIndex = 0;
-let correctAnswers = 0;
-let incorrectAnswers = 0;
-
-// DOM Elements
-const barContainer = document.getElementById("bar-container");
-const questionText = document.getElementById("question-text");
-const optionsContainer = document.getElementById("options-container");
-const feedback = document.getElementById("feedback");
-const nextButton = document.getElementById("next-button");
-const correctCounter = document.getElementById("correct-counter");
-const incorrectCounter = document.getElementById("incorrect-counter");
-const resetButton = document.getElementById("reset-button"); // Add this line
-
-// Generate merge steps
+// Generate the steps for merge sort
 function generateSteps(array) {
   const steps = [];
   let groups = array.map((n) => [n]);
@@ -51,15 +46,7 @@ function generateSteps(array) {
   return steps;
 }
 
-// Render the current step
-function renderStep() {
-  const step = steps[currentStepIndex];
-  renderChart(currentArray, [...step.group1, ...step.group2]);
-  questionText.textContent = `Compare the elements: ${step.group1} and ${step.group2}. Select the smallest.`;
-  renderOptions([...step.group1, ...step.group2]);
-}
-
-// Render the bar chart
+// Render the chart for the current array
 function renderChart(array, highlight = []) {
   barContainer.innerHTML = "";
   array.forEach((num) => {
@@ -72,7 +59,7 @@ function renderChart(array, highlight = []) {
   });
 }
 
-// Render the options
+// Render the options for the current step
 function renderOptions(options) {
   optionsContainer.innerHTML = "";
   options.forEach((option) => {
@@ -82,6 +69,14 @@ function renderOptions(options) {
     button.onclick = () => handleAnswer(option);
     optionsContainer.appendChild(button);
   });
+}
+
+// Render the current step
+function renderStep() {
+  const step = steps[currentStepIndex];
+  renderChart(currentArray, [...step.group1, ...step.group2]);
+  feedback.textContent = `Compare the elements: ${step.group1} and ${step.group2}. Select the smallest.`;
+  renderOptions([...step.group1, ...step.group2]);
 }
 
 // Handle the answer
@@ -108,47 +103,72 @@ function handleAnswer(selected) {
 
   correctCounter.textContent = correctAnswers;
   incorrectCounter.textContent = incorrectAnswers;
-  nextButton.disabled = false;
+  nextBtn.disabled = false;
 }
 
 // Handle the next step
-nextButton.onclick = () => {
+function moveToNextStep() {
   currentStepIndex++;
   if (currentStepIndex < steps.length) {
     renderStep();
   } else {
     feedback.textContent = "Great job! The array is now sorted!";
     feedback.style.color = "#208cdc";
-    renderChart(array.sort((a, b) => a - b));
+    renderChart(currentArray.sort((a, b) => a - b));
+
+    // Submit score to backend
+    submitScore(correctAnswers);
   }
-  nextButton.disabled = true;
-};
+  nextBtn.disabled = true;
+}
 
-// Initialize the game
-steps = generateSteps(array);
-renderStep();
-
-// Handle Reset Button
-resetButton.onclick = () => {
-  // Generate a new random array with numbers between 1 and 14
+// Reset the game
+function resetGame() {
   const newArray = generateRandomArray(8, 1, 14);
-
-  // Reset the original array and regenerate the game state
-  currentArray = [...newArray]; // New current array
-  steps = generateSteps(newArray); // Regenerate steps
-  currentStepIndex = 0; // Reset step index
-  correctAnswers = 0; // Reset score
+  currentArray = [...newArray];
+  steps = generateSteps(newArray);
+  currentStepIndex = 0;
+  correctAnswers = 0;
   incorrectAnswers = 0;
 
-  // Reset DOM elements
-  correctCounter.textContent = correctAnswers; // Reset counters
+  correctCounter.textContent = correctAnswers;
   incorrectCounter.textContent = incorrectAnswers;
-  feedback.textContent = ""; // Clear feedback
-  nextButton.disabled = true; // Disable the next button
+  feedback.textContent = "";
+  nextBtn.disabled = true;
+  renderChart(currentArray);
+  renderStep();
+}
 
-  // Render the new state
-  renderChart(currentArray); // Render the new array chart
-  renderStep(); // Start from the first step
-};
+// Submit the score to the backend
+function submitScore(score) {
+  fetch("http://localhost:3000/top-scores/merge-sort", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ score }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Score submitted:", data))
+    .catch((error) => console.error("Error submitting score:", error));
+}
 
+// View the top scores
+function viewTopScores() {
+  fetch("http://localhost:3000/top-scores/merge-sort")
+    .then((response) => response.text())
+    .then((data) => {
+      const win = window.open();
+      win.document.write(data);
+    })
+    .catch((error) => console.error("Error fetching top scores:", error));
+}
 
+// Event Listeners
+nextBtn.addEventListener("click", moveToNextStep);
+resetBtn.addEventListener("click", resetGame);
+viewScoresBtn.addEventListener("click", viewTopScores);
+
+// Initialize the game
+const array = generateRandomArray(8, 1, 14);
+currentArray = [...array];
+steps = generateSteps(currentArray);
+renderStep();

@@ -7,6 +7,7 @@ const feedback = document.getElementById("feedback");
 const rightCounter = document.getElementById("right-counter");
 const wrongCounter = document.getElementById("wrong-counter");
 const currentElementDisplay = document.getElementById("current-element");
+const viewScoresBtn = document.getElementById("view-scores-btn");
 
 let bars = [];
 let array = [];
@@ -60,8 +61,14 @@ function updateSelection() {
 // Swap elements in array and DOM
 function swapElements() {
   [array[i], array[minIndex]] = [array[minIndex], array[i]];
-  [bars[i].textContent, bars[minIndex].textContent] = [bars[minIndex].textContent, bars[i].textContent];
-  [bars[i].style.height, bars[minIndex].style.height] = [bars[minIndex].style.height, bars[i].style.height];
+  [bars[i].textContent, bars[minIndex].textContent] = [
+    bars[minIndex].textContent,
+    bars[i].textContent,
+  ];
+  [bars[i].style.height, bars[minIndex].style.height] = [
+    bars[minIndex].style.height,
+    bars[i].style.height,
+  ];
 }
 
 // Update counters
@@ -108,6 +115,7 @@ function selectMinimum() {
     feedback.textContent = "Array is sorted! Well done!";
     nextBtn.disabled = true;
     minBtn.disabled = true;
+    submitScore(rightAnswers); // Submit score when sorting is complete
   }
 }
 
@@ -140,3 +148,27 @@ resetBtn.addEventListener("click", resetGame);
 // Initialize the game
 generateBars();
 updateSelection();
+
+// Function to send the score to the backend
+function submitScore(score) {
+  fetch("http://localhost:3000/top-scores/selection-sort", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ score }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Score submitted:", data))
+    .catch((error) => console.error("Error submitting score:", error));
+}
+
+// Handle "View Top Scores" button click
+viewScoresBtn.addEventListener("click", () => {
+  fetch("http://localhost:3000/top-scores/selection-sort")
+    .then((response) => response.text())
+    .then((data) => {
+      // Display the EJS page content (you can modify this to show a modal or page)
+      const win = window.open();
+      win.document.write(data);
+    })
+    .catch((error) => console.error("Error fetching top scores:", error));
+});

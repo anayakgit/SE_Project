@@ -32,7 +32,9 @@ function renderArray() {
     bar.textContent = value;
 
     // Highlight active or sorted sections
-    if (subarrayStack.some(({ left, right }) => index >= left && index <= right)) {
+    if (
+      subarrayStack.some(({ left, right }) => index >= left && index <= right)
+    ) {
       bar.classList.add("active");
     } else {
       bar.classList.add("sorted");
@@ -44,9 +46,11 @@ function renderArray() {
 function askQuestion() {
   if (subarrayStack.length === 0) {
     if (isArraySorted()) {
-      document.getElementById("question-text").textContent = "Array is sorted! Great job!";
+      document.getElementById("question-text").textContent =
+        "Array is sorted! Great job!";
     } else {
-      document.getElementById("question-text").textContent = "Sorting complete, but something went wrong!";
+      document.getElementById("question-text").textContent =
+        "Sorting complete, but something went wrong!";
     }
     document.getElementById("options-container").innerHTML = "";
     return;
@@ -65,7 +69,9 @@ function askQuestion() {
     optionsContainer.appendChild(button);
   });
 
-  document.getElementById("question-text").textContent = `What is the pivot value for the current subarray?`;
+  document.getElementById(
+    "question-text"
+  ).textContent = `What is the pivot value for the current subarray?`;
 }
 
 function handleAnswer(selectedValue, pivotValue) {
@@ -137,3 +143,27 @@ document.getElementById("reset-button").onclick = () => {
 
 // Initialize the game when the page loads
 initializeGame();
+
+// Function to send the score to the backend
+function submitScore(score) {
+  fetch("http://localhost:3000/top-scores/quick-sort", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ score }),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log("Score submitted:", data))
+    .catch((error) => console.error("Error submitting score:", error));
+}
+
+// Handle "View Top Scores" button click
+document.getElementById("view-scores-btn").addEventListener("click", () => {
+  fetch("http://localhost:3000/top-scores/quick-sort")
+    .then((response) => response.text())
+    .then((data) => {
+      // Display the EJS page content (you can modify this to show a modal or page)
+      const win = window.open();
+      win.document.write(data);
+    })
+    .catch((error) => console.error("Error fetching top scores:", error));
+});
